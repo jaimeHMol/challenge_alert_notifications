@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from alert_notifications.controlers.main import app
+from alert_notifications_api.controlers.main import app
 
 client = TestClient(app)
 
@@ -16,4 +16,3 @@ def test_send_notifications():
     response = client.post("/notifications")
     
     # Check email and/or sms were correctly received
-    

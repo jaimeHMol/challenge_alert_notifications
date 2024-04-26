@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from alert_notifications.controlers.main import app
+from alert_notifications_api.controlers.main import app
 
 client = TestClient(app)
 user_id = 123456789
