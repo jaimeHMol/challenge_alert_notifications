@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from sqlmodel import Field, SQLModel
 
 
-class NotificationPreference(BaseModel):
+class NotificationPreference(SQLModel):
     """ Represents the notification preferences defined per each customer (1 to 1) """
-    notification_preference_id: int
+    notification_preference_id: int = Field(default=None, primary_key=True)
     customer_id: int
     mail: bool
     sms: bool
