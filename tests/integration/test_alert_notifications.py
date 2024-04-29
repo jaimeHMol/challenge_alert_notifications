@@ -8,11 +8,17 @@ def test_send_notifications():
     """ Integration tests to ensure that the whole notification system is working as
     expected. """
 
-    # Create user
+    # Setup
+    # Create data base structure
 
-    # Create notifications preference
+
+    # Create users, offers and user_notification_preferences
+
 
     # Schedule notifications
     response = client.post("/notifications")
     
     # Check email and/or sms were correctly received
+
+    # tear down
+    # Remove tables and session

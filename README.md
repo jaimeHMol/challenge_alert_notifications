@@ -47,3 +47,4 @@ coverage report
 ## Future work
 * Define security layer (who can use the API and their permissions)
 * Observability is also pending to address
+* Models could be better defined, for example to validate custom and critical fields like phone number.
