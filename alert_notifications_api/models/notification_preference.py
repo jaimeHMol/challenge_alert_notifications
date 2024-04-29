@@ -10,11 +10,11 @@ if TYPE_CHECKING:
 class NotificationPreference(SQLModel, table=True):
     """ Represents the notification preferences defined per each customer (1 to 1) """
     notification_preference_id: int = Field(primary_key=True)
-    customer_id: int = Field(foreign_key="customer.customer_id")
+    customer_id: Optional[int] = Field(default=None, foreign_key="customer.customer_id")
     email: bool
     sms: bool
     app_push: Optional[bool] = None
-    dummy: Optional[bool] = None
+    dummy: Optional[bool] = False
     created_on: datetime = Field(default_factory=datetime.now)
     created_by: str
 
