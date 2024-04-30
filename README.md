@@ -47,5 +47,5 @@ coverage report
 ## Future work
 * Define security layer (who can use the API and their permissions)
 * Observability is also pending to address
-* Models could be better defined, for example to validate custom and critical fields like phone number.
+* Models could be better defined, for example, validating custom and critical fields like phone number, or validating referential data between tables.
 * Create the rest of the endpoints and organize them by entity using blueprints or something similar.

@@ -3,12 +3,10 @@ import threading
 import time
 from typing import Dict, List
 
-from alert_notifications_api.models.notification_preference import \
-    NotificationPreference
+from alert_notifications_api.models.notification_dto import NotificationDTO
 
-count = 0
 task_queue = queue.Queue()
-
+counter = 0
 
 def process_dummy_task(customer):
     """Function that simulates a task"""
@@ -19,16 +17,24 @@ def process_dummy_task(customer):
 
 def worker(q):
     """ Worker that has the logic to process tasks, especially for notifications. """
+
+    global counter
     while True:
-        notification: NotificationPreference = q.get() # Obtains a task from the queue
+        notification: NotificationDTO = q.get() # Obtains a task from the queue
         if notification.dummy:
-            process_dummy_task(notification.customer_id) # Process the task
+            process_dummy_task(notification.customer_email) # Process the task
+            counter += 1
+        else:
+            if notification.email:
+                counter += 1
+            if notification.sms:
+                counter += 1
         q.task_done() # Marks the task as completed on the queue
 
 
-def queue_notification_task(tasks: List[NotificationPreference]) -> Dict[str, str]:
+def queue_notification_task(tasks: List[NotificationDTO]) -> Dict[str, str]:
     """ Custom method queue a notification to be delivered. """
-
+ 
     # Creates and instantiates several threads that simulates workers to process the tasks
     for _ in range(len(tasks)):
         t = threading.Thread(target=worker, args=(task_queue,))
@@ -42,7 +48,10 @@ def queue_notification_task(tasks: List[NotificationPreference]) -> Dict[str, st
     # Wait for all the tasks to finish
     task_queue.join()
 
-    return {"message": f"All the {len(tasks)} tasks were queued."}
+    global counter
+    local_count = counter
+    counter = 0
+    return {"message": f"All the {local_count} tasks were queued."}
 
 
 def queue_completed() -> bool:

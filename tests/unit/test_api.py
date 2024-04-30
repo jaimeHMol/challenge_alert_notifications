@@ -13,9 +13,6 @@ def database():
     """ Create the database structure. """
     create_db_and_tables()
 
-    yield "test"
-    """ Clean the database. """
-    drop_db()
 
 def test_api_health():
     """ Initial test just to be sure that the service is running. """
@@ -33,7 +30,7 @@ def test_schedule_notification():
 def test_get_user_preferences(database):
     """ Test the retrieval of the user notification preferences. Since the customer and
     preference doesn't exist it will validate the 404 status code. """
-    response = client.get(f"/preferences/{customer_id}")
+    response = client.get(f"/preferences/77777")
     assert response.status_code == 404
 
 

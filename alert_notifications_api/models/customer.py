@@ -14,8 +14,8 @@ class Customer(SQLModel, table=True):
     attributes. """
     customer_id: int = Field(primary_key=True)
     name: str
-    email: Optional[EmailStr] = Field(sa_type=AutoString)
-    cellphone: Optional[int]
+    email: EmailStr = Field(sa_type=AutoString)
+    cellphone: int
     created_on: datetime = Field(default_factory=datetime.now)
     created_by: str
     
