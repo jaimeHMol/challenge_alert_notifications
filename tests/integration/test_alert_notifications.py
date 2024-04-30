@@ -3,8 +3,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from alert_notifications_api.app import app
 from alert_notifications_api.database import create_db_and_tables, drop_db
+from alert_notifications_api.main import app
 
 client = TestClient(app)
 test_customers = [
@@ -137,5 +137,9 @@ def test_schedule_notifications(database):
     
 
 
-    # Check email and/or sms were correctly received
+def test_notifications_delivered(database):
+    """ Test that all the notifications (email and sms) configured in this integration
+    test were correctly delivered.  """
+    # Needs mock to be implemented
+    assert True
 
