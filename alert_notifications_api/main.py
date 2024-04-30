@@ -11,6 +11,11 @@ from queue_tasks.main import queue_completed, queue_notification_task
 
 app = FastAPI()
 
+@app.get("/")
+async def root():
+    return {"message": "Hello, this is a custom alert notification API. Go to the /docs address to see the full documentation."}
+
+
 @app.get("/health")
 async def status():
     return {"message": "The service is up and running :)"}
