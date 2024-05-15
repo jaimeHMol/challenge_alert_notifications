@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import TYPE_CHECKING, Optional
 
+from pydantic import ConfigDict
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -9,6 +10,10 @@ if TYPE_CHECKING:
 
 class NotificationPreference(SQLModel, table=True):
     """ Represents the notification preferences defined per each customer (1 to 1) """
+    # class Config:
+    #     validate_assignment = True
+    model_config = ConfigDict(validate_assignment=True) # type: ignore
+    
     notification_preference_id: int = Field(primary_key=True)
     customer_id: Optional[int] = Field(default=None, foreign_key="customer.customer_id", unique=True)
     email: bool

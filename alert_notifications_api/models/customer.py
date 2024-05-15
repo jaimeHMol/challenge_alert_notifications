@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
-from pydantic import EmailStr
+from pydantic import ConfigDict, EmailStr
 from sqlmodel import AutoString, Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -12,6 +12,10 @@ if TYPE_CHECKING:
 class Customer(SQLModel, table=True):
     """ Represents the customers (person or company) of the application with their
     attributes. """
+    # class Config:
+    #     validate_assignment = True
+    model_config = ConfigDict(validate_assignment=True) # type: ignore
+
     customer_id: int = Field(primary_key=True)
     name: str
     email: EmailStr = Field(sa_type=AutoString)

@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from alert_notifications_api.database import create_db_and_tables, drop_db
+from alert_notifications_api.database import create_db_and_tables
 from alert_notifications_api.main import app
 
 client = TestClient(app)

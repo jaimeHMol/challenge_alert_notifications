@@ -7,22 +7,22 @@ from alert_notifications_api.models.notification_dto import NotificationDTO
 from alert_notifications_api.models.notification_preference import \
     NotificationPreference
 from alert_notifications_api.models.offer import Offer
-from queue_tasks.main import queue_completed, queue_notification_task
+from queue_tasks.main import queue_notification_task
 
 app = FastAPI()
 
 @app.get("/")
-async def root():
+async def root() -> dict:
     return {"message": "Hello, this is a custom alert notification API. Go to the /docs address to see the full documentation."}
 
 
 @app.get("/health")
-async def status():
+async def status() -> dict:
     return {"message": "The service is up and running :)"}
 
 
 @app.post("/customer", response_model=Customer)
-async def create_customer(customer: Customer):
+async def create_customer(customer: Customer) -> Customer:
     with Session(engine) as session:
         session.add(customer)
         session.commit()
@@ -31,7 +31,7 @@ async def create_customer(customer: Customer):
 
 
 @app.post("/offer", response_model=Offer)
-async def create_offer(offer: Offer):
+async def create_offer(offer: Offer) -> Offer:
     with Session(engine) as session:
         session.add(offer)
         session.commit()
@@ -40,7 +40,10 @@ async def create_offer(offer: Offer):
 
 
 @app.post("/preferences/{customer_id}", response_model=NotificationPreference)
-async def create_notification_preference(customer_id: int, notification_preference: NotificationPreference):
+async def create_notification_preference(
+    customer_id: int,
+    notification_preference: NotificationPreference
+) -> NotificationPreference:
     notification_preference.customer_id = customer_id
     with Session(engine) as session:
         session.add(notification_preference)
@@ -50,7 +53,7 @@ async def create_notification_preference(customer_id: int, notification_preferen
 
 
 @app.get("/preferences/{customer_id}", response_model=NotificationPreference)
-async def get_notification_preference(customer_id: int):
+async def get_notification_preference(customer_id: int) -> NotificationPreference:
     with Session(engine) as session:
         statement = select(NotificationPreference).where(NotificationPreference.customer_id == customer_id)
         results = session.exec(statement)
@@ -61,7 +64,7 @@ async def get_notification_preference(customer_id: int):
 
 
 @app.post("/notifications")
-async def schedule_notifications():
+async def schedule_notifications() -> dict:
     notification_queue = []
 
     with Session(engine) as session:
@@ -69,7 +72,9 @@ async def schedule_notifications():
         offers = session.exec(statement)
 
         for offer in offers:
-            statement = select(Customer, NotificationPreference).where(Customer.customer_id == NotificationPreference.customer_id)
+            statement = select(Customer, NotificationPreference).where(
+                Customer.customer_id == NotificationPreference.customer_id
+            )
             results = session.exec(statement)
             for customer, notification_preference in results:
                 notification = NotificationDTO(
@@ -87,5 +92,5 @@ async def schedule_notifications():
 
 
 
-def queue_notification(result: Offer):
+def queue_notification(result: Offer) -> None:
     return

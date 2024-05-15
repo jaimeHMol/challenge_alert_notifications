@@ -26,10 +26,16 @@ pip install requirements.txt
 ```
 
 ### Try the app
-Execute the code:
+Start the local server:
 ```
 uvicorn alert_notifications_api.main:app --reload
 ```
+
+Execute the data base initialization (SQLite):
+```
+python -m alert_notifications_api.init_db
+```
+
 Then, access the url: **[127.0.0.1:8000/docs](127.0.0.1:8000/docs)** to see all the documentation of the API.
 
 
@@ -71,6 +77,7 @@ defined for the "production ready proposal". They basically are:
 * FastApi (For the API Backend)
 * SQLModel (For the ORM)
 * Pydantic (For some model validations)
+* SQLite (To store the persistent data)
 
 
 
